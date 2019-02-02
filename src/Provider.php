@@ -4,6 +4,7 @@ namespace SeteMares\Freee;
 
 use SocialiteProviders\Manager\OAuth2\AbstractProvider;
 use SocialiteProviders\Manager\OAuth2\User;
+use GuzzleHttp\ClientInterface;
 
 class Provider extends AbstractProvider
 {
@@ -31,6 +32,30 @@ class Provider extends AbstractProvider
     {
         return 'https://api.freee.co.jp/oauth/token';
     }
+
+    /**
+	 * Refresh token
+	 *
+	 * @param $refresh_token
+	 *
+	 * @return object
+	 */
+	public function refreshToken( $refresh_token ) {
+		$params = array(
+			'grant_type'    => 'refresh_token',
+			'client_id'     => $this->clientId,
+			'client_secret' => $this->clientSecret,
+			'refresh_token' => $refresh_token,
+        );
+        
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
+            'headers' => ['Accept' => 'application/json'],
+            $postKey => $params,
+        ]);
+
+        return json_decode($response->getBody(), true);
+	}
 
     /**
      * {@inheritdoc}
