@@ -31,31 +31,35 @@ class Provider extends AbstractProvider
     protected function getTokenUrl()
     {
         return 'https://api.freee.co.jp/oauth/token';
+        // return 'https://accounts.secure.freee.co.jp/public_api/token';
     }
 
     /**
-	 * Refresh token
-	 *
-	 * @param $refresh_token
-	 *
-	 * @return object
-	 */
-	public function refreshToken( $refresh_token ) {
-		$params = array(
-			'grant_type'    => 'refresh_token',
-			'client_id'     => $this->clientId,
-			'client_secret' => $this->clientSecret,
-			'refresh_token' => $refresh_token,
+     * Refresh token
+     *
+     * @param $refresh_token
+     *
+     * @return object
+     */
+    public function refreshToken($refresh_token)
+    {
+        $params = array(
+            'grant_type' => 'refresh_token',
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'refresh_token' => $refresh_token
         );
-        
-        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1) ? 'form_params' : 'body';
+
+        $postKey = (version_compare(ClientInterface::VERSION, '6') === 1)
+            ? 'form_params'
+            : 'body';
         $response = $this->getHttpClient()->post($this->getTokenUrl(), [
             'headers' => ['Accept' => 'application/json'],
-            $postKey => $params,
+            $postKey => $params
         ]);
 
         return json_decode($response->getBody(), true);
-	}
+    }
 
     /**
      * {@inheritdoc}
