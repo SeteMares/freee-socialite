@@ -2,12 +2,14 @@
     "name": "setemares/freee-socialite",
     "description": "Freee OAuth2 Provider for Laravel Socialite",
     "license": "MIT",
-    "authors": [{
-        "name": "SeteMares",
-        "email": "dev@setemares.co"
-    }],
+    "authors": [
+        {
+            "name": "SeteMares",
+            "email": "dev@setemares.co"
+        }
+    ],
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.0 || >=8.0",
         "socialiteproviders/manager": "~3.0"
     },
     "autoload": {
